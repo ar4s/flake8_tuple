@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+import flake8_tuple
 
 try:
     from setuptools import setup
@@ -25,7 +25,7 @@ test_requirements = [
 
 setup(
     name='flake8_tuple',
-    version='0.1.0',
+    version=flake8_tuple.__version__,
     description="Check code for 1 element tuple.",
     long_description=readme + '\n\n' + history,
     author="Arkadiusz Adamski",
