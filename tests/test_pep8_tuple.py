@@ -21,7 +21,7 @@ class Testflake8Tuple(unittest.TestCase):
         ("foo = 3,\nbar = 10 \nfoo_bar = 2,", 2),
         ("foo = 3,\nbar = 10,\nfoo_bar = 2",  2),  # noqa
         ("foo = 3 \nbar = 10 \nfoo_bar = 2,", 1),
-        ("foo = 3 \nbar = 10 \nfoo_bar = 2",  0),  # noqa
+        ("class A(object):\n foo = 3\n bar = 10,\n foo_bar = 2", 1),  # noqa
     )
     def test_tuple(self, code, errors):
         result = check_code_for_wrong_tuple(code)

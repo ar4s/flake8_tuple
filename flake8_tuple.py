@@ -7,7 +7,7 @@ import tokenize
 
 
 ERROR_CODE = 'T801'
-ERROR_MESSAGE = 'one element tuple',
+ERROR_MESSAGE = 'one element tuple'
 
 
 class TupleChecker(object):
@@ -16,19 +16,18 @@ class TupleChecker(object):
 
     def __init__(self, tree, filename):
         self.tree = tree
+        self.filename = filename
 
     def run(self):
-        code = ''
         with open(self.filename, 'r') as f:
             lines = f.readlines()
             noqa = get_noqa_lines(lines)
-            code = '\n'.join(lines)
 
-        for error in check_for_wrong_tuple(self.tree, code, noqa):
+        for error in check_for_wrong_tuple(self.tree, lines, noqa):
             yield (
                 error[0],
                 error[1],
-                ('{}: {}').format(ERROR_CODE, ERROR_MESSAGE),
+                ('{} {}').format(ERROR_CODE, ERROR_MESSAGE),
                 type(self)
             )
 
@@ -52,7 +51,8 @@ def get_noqa_lines(code):
 
 def check_code_for_wrong_tuple(code):
     tree = ast.parse(code)
-    noqa = get_noqa_lines(code.split("\n"))
+    code = code.split("\n")
+    noqa = get_noqa_lines(code)
     return check_for_wrong_tuple(tree, code, noqa)
 
 
@@ -69,7 +69,7 @@ def check_for_wrong_tuple(tree, code, noqa):
     if not candidates:
         return []
     for candidate in candidates:
-        tokens = tokenize.generate_tokens(lambda L=iter(code.split("\n")): next(L))
+        tokens = tokenize.generate_tokens(lambda L=iter(code): next(L))
         for t in tokens:
             if t.start[0] == candidate[0] and t.start[1] >= candidate[1]:
                 while t.type != token.OP and t.string != '=':
