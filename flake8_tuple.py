@@ -1,13 +1,27 @@
 # -*- coding: utf-8 -*-
-__version__ = '0.2.2'
+__version__ = '0.2.3'
 
 import ast
+import collections
+import six
+import sys
 import token
 import tokenize
 
 
 ERROR_CODE = 'T801'
 ERROR_MESSAGE = 'one element tuple'
+
+
+if six.PY2:
+    """
+    Backported from Python 3.x
+    """
+    TokenInfo = collections.namedtuple(
+        'TokenInfo', ['type', 'string', 'start', 'end', 'line']
+    )
+else:
+    TokenInfo = tokenize.TokenInfo
 
 
 class TupleChecker(object):
@@ -35,14 +49,14 @@ class TupleChecker(object):
 def get_noqa_lines(code):
     tokens = tokenize.generate_tokens(lambda L=iter(code): next(L))
     noqa = [
-        token[2][0]
-        for token in tokens
+        x[2][0]
+        for x in tokens
         if (
-            token[0] == tokenize.COMMENT and
+            x[0] == tokenize.COMMENT and
             (
-                token[1].endswith('noqa') or
+                x[1].endswith('noqa') or
                 (
-                    isinstance(token[0], str) and token[0].endswith('noqa')
+                    isinstance(x[0], str) and x[0].endswith('noqa')
                 )
             )
         )]
@@ -71,11 +85,12 @@ def check_for_wrong_tuple(tree, code, noqa):
     for candidate in candidates:
         tokens = tokenize.generate_tokens(lambda L=iter(code): next(L))
         for t in tokens:
-            if t.start[0] == candidate[0] and t.start[1] >= candidate[1]:
-                while t.type != token.OP and t.string != '=':
-                    t = next(tokens)
-                t = next(tokens)
-                if t.type != token.OP and t.string != '(' and t.type != token.ENDMARKER:
-                    errors.append(t.start)
-                    t = next(tokens)
+            x = TokenInfo(*t)
+            if x.start[0] == candidate[0] and x.start[1] >= candidate[1]:
+                while x.type != token.OP and x.string != '=':
+                    x = TokenInfo(*next(tokens))
+                x = TokenInfo(*next(tokens))
+                if x.type != token.OP and x.string != '(' and x.type != token.ENDMARKER:  # noqa
+                    errors.append(x.start)
+                    x = TokenInfo(*next(tokens))
     return errors

@@ -15,7 +15,7 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read().replace('.. :changelog:', '')
 
 requirements = [
-    # TODO: put package requirements here
+    'six'
 ]
 
 test_requirements = [
@@ -46,7 +46,7 @@ setup(
         'Programming Language :: Python :: 3.4',
     ],
     test_suite='tests',
-    tests_require=test_requirements,
+    tests_require=requirements + test_requirements,
     entry_points={
         'flake8.extension': [
             'T80 = flake8_tuple:TupleChecker',
