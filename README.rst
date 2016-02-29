@@ -7,6 +7,8 @@ flake8_tuple
 
 .. image:: https://img.shields.io/pypi/v/flake8_tuple.svg
         :target: https://pypi.python.org/pypi/flake8_tuple
+        
+.. image:: https://img.shields.io/pypi/dm/flake8_tuple.svg
 
 
 Check code for 1 element tuple.
