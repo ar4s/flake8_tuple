@@ -7,7 +7,9 @@ python:
   - "3.5"
   - "3.4"
 
-before_install: pip install tox-travis
+before_install:
+  - pip install tox-travis
+  - pip install six
 install: pip install -e .
 
 script: tox -e $TOX_ENV
