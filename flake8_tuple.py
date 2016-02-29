@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-__version__ = '0.2.0'
+__version__ = '0.2.1'
 
 import ast
-import token
 import tokenize
 
 
@@ -35,14 +34,14 @@ class TupleChecker(object):
 def get_noqa_lines(code):
     tokens = tokenize.generate_tokens(lambda L=iter(code): next(L))
     noqa = [
-        token[2][0]
-        for token in tokens
+        x[2][0]
+        for x in tokens
         if (
-            token[0] == tokenize.COMMENT and
+            x[0] == tokenize.COMMENT and
             (
-                token[1].endswith('noqa') or
+                x[1].endswith('noqa') or
                 (
-                    isinstance(token[0], str) and token[0].endswith('noqa')
+                    isinstance(x[0], str) and x[0].endswith('noqa')
                 )
             )
         )]
@@ -57,7 +56,6 @@ def check_code_for_wrong_tuple(code):
 
 
 def check_for_wrong_tuple(tree, code, noqa):
-    errors = []
     candidates = []
     for assign in ast.walk(tree):
         if not isinstance(assign, ast.Assign) or assign.lineno in noqa:
@@ -66,16 +64,4 @@ def check_for_wrong_tuple(tree, code, noqa):
             if isinstance(tuple_el, ast.Tuple) and len(tuple_el.elts) == 1:
                 candidates.append((assign.lineno, assign.col_offset))
                 break
-    if not candidates:
-        return []
-    for candidate in candidates:
-        tokens = tokenize.generate_tokens(lambda L=iter(code): next(L))
-        for t in tokens:
-            if t.start[0] == candidate[0] and t.start[1] >= candidate[1]:
-                while t.type != token.OP and t.string != '=':
-                    t = next(tokens)
-                t = next(tokens)
-                if t.type != token.OP and t.string != '(' and t.type != token.ENDMARKER:
-                    errors.append(t.start)
-                    t = next(tokens)
-    return errors
+    return candidates
