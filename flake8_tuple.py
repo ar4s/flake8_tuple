@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-__version__ = '0.2.4'
-
 import ast
 import collections
 import six
-import sys
 import token
 import tokenize
+
+__version__ = '0.2.6'
 
 
 ERROR_CODE = 'T801'

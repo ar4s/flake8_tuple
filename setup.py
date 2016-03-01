@@ -1,18 +1,29 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import flake8_tuple
-
+import re
 try:
     from setuptools import setup
 except ImportError:
     from distutils.core import setup
 
 
-with open('README.rst') as readme_file:
-    readme = readme_file.read()
+def read(filename):
+    with open(filename) as f:
+        return f.read()
 
-with open('HISTORY.rst') as history_file:
-    history = history_file.read().replace('.. :changelog:', '')
+
+def find_version():
+    version_file = read('flake8_tuple.py')
+    version_match = re.search(
+        r"^__version__ = ['\"]([^'\"]*)['\"]", version_file, re.M
+    )
+    if version_match:
+        return version_match.group(1)
+    raise RuntimeError("Unable to find version string.")
+
+
+readme = read('README.rst')
+history = read('HISTORY.rst').replace('.. :changelog:', '')
 
 requirements = [
     'six'
@@ -25,7 +36,7 @@ test_requirements = [
 
 setup(
     name='flake8_tuple',
-    version=flake8_tuple.__version__,
+    version=find_version(),
     description="Check code for 1 element tuple.",
     long_description=readme + '\n\n' + history,
     author="Arkadiusz Adamski",
@@ -43,7 +54,9 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
+        'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
     ],
     test_suite='tests',
     tests_require=requirements + test_requirements,
