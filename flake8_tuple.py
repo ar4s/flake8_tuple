@@ -33,7 +33,7 @@ class TupleChecker(object):
 
     def run(self):
         with open(self.filename, 'r') as f:
-            lines = f.readlines()
+            lines = f.read().split('\n')
             noqa = get_noqa_lines(lines)
 
         for error in check_for_wrong_tuple(self.tree, lines, noqa):
@@ -64,7 +64,7 @@ def get_noqa_lines(code):
 
 def check_code_for_wrong_tuple(code):
     tree = ast.parse(code)
-    code = code.split("\n")
+    code = code.split('\n')
     noqa = get_noqa_lines(code)
     return check_for_wrong_tuple(tree, code, noqa)
 
