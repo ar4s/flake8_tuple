@@ -18,13 +18,16 @@ class Testflake8Tuple(unittest.TestCase):
         ("bar = 1; foo = bar,", 1),
         ("foo = (\n3,\n4,\n)\nbar = 10,", 1),
         ("foo = 3,\nbar = 10,\nfoo_bar = 2,", 3),
-        ("foo = 3,\nbar = 10 \nfoo_bar = 2,", 2),
+        ("foo = 3,\nbar = 10\nfoo_bar = 2,", 2),
         ("foo = 3,\nbar = 10,\nfoo_bar = 2",  2),  # noqa
         ("foo = 3 \nbar = 10 \nfoo_bar = 2,", 1),
         ("class A(object):\n foo = 3\n bar = 10,\n foo_bar = 2", 1),  # noqa
         ("a = ('a',)\nfrom foo import bar, baz", 0),
         ("a = ('a',)\n('b', 'c')", 0),
         ("a = ('a',)\n('b', 'c')\n", 0),
+        ('"""\nfoo\n"""\nbah = 1\n', 0),
+        ("base_url = reverse(\n'test',\nargs=(pk,)\n)", 0),
+        ("base_url = reverse(\n'test',\nargs=pk,\n)", 0),
     )
     def test_tuple(self, code, errors):
         result = check_code_for_wrong_tuple(code)

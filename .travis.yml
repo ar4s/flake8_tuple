@@ -15,4 +15,4 @@ install:
 
 script:
   - tox
-  - flake8 tests/real_test.py
+  - flake8 tests/issues
