@@ -5,7 +5,7 @@ import six
 import token
 import tokenize
 
-__version__ = '0.2.7'
+__version__ = '0.2.8'
 
 
 ERROR_CODE = 'T801'
@@ -33,7 +33,7 @@ class TupleChecker(object):
 
     def run(self):
         with open(self.filename, 'r') as f:
-            lines = f.read().split('\n')
+            lines = f.readlines()
             noqa = get_noqa_lines(lines)
 
         for error in check_for_wrong_tuple(self.tree, lines, noqa):
@@ -64,7 +64,7 @@ def get_noqa_lines(code):
 
 def check_code_for_wrong_tuple(code):
     tree = ast.parse(code)
-    code = code.split('\n')
+    code = [line + '\n' for line in code.split('\n')]
     noqa = get_noqa_lines(code)
     return check_for_wrong_tuple(tree, code, noqa)
 
@@ -75,6 +75,8 @@ def check_for_wrong_tuple(tree, code, noqa):
     for assign in ast.walk(tree):
         if not isinstance(assign, ast.Assign) or assign.lineno in noqa:
             continue
+        elif isinstance(assign.value, ast.Call):
+            continue
         for tuple_el in ast.walk(assign):
             if isinstance(tuple_el, ast.Tuple) and len(tuple_el.elts) == 1:
                 candidates.append((assign.lineno, assign.col_offset))
@@ -82,14 +84,17 @@ def check_for_wrong_tuple(tree, code, noqa):
     if not candidates:
         return []
     for candidate in candidates:
-        tokens = tokenize.generate_tokens(lambda L=iter(code): next(L))
+        tokens = tokenize.generate_tokens(
+            lambda L=iter(code): next(L)
+        )
         for t in tokens:
             x = TokenInfo(*t)
-            if x.start[0] == candidate[0] and x.start[1] >= candidate[1]:
-                while x.type != token.OP and x.string != '=':
-                    x = TokenInfo(*next(tokens))
+            if x.start[0] != candidate[0]:
+                continue
+            if x.type == token.OP and x.string == '=':
                 x = TokenInfo(*next(tokens))
-                if x.type != token.OP and x.string != '(' and x.type != token.ENDMARKER:  # noqa
-                    errors.append(x.start)
-                    x = TokenInfo(*next(tokens))
+                if x.type != token.OP and x.string != '(':
+                    x_next = TokenInfo(*next(tokens))
+                    if x_next.type == token.OP and x_next.string == ',':
+                        errors.append(x.start)
     return errors

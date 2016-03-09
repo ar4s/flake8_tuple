@@ -3,6 +3,13 @@
 History
 -------
 
+0.2.8 (2016-03-09)
+---------------------
+
+* Fixed issue #6 - EOF in multi-line string
+* Added ``test/issues`` for run flake8
+
+
 0.2.7 (2016-03-08)
 ---------------------
 
