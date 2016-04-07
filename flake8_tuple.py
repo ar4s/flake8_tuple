@@ -6,7 +6,7 @@ import six
 import token
 import tokenize
 
-__version__ = '0.2.8'
+__version__ = '0.2.9'
 
 
 ERROR_CODE = 'T801'
