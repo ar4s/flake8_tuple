@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import ast
 import collections
+import pep8
 import six
 import token
 import tokenize
@@ -23,6 +24,13 @@ else:
     TokenInfo = tokenize.TokenInfo
 
 
+def get_lines(filename):
+    if filename in ('stdin', '-', None):
+        return pep8.stdin_get_value().splitlines(True)
+    else:
+        return pep8.readlines(filename)
+
+
 class TupleChecker(object):
     name = 'flake8-tuple'
     version = __version__
@@ -32,9 +40,8 @@ class TupleChecker(object):
         self.filename = filename
 
     def run(self):
-        with open(self.filename, 'r') as f:
-            lines = f.readlines()
-            noqa = get_noqa_lines(lines)
+        lines = get_lines(self.filename)
+        noqa = get_noqa_lines(lines)
 
         for error in check_for_wrong_tuple(self.tree, lines, noqa):
             yield (
