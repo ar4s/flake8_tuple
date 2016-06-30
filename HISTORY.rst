@@ -3,6 +3,11 @@
 History
 -------
 
+0.2.10 (2016-06-30)
+-------------------
+* Fixed issue #9 - ``pycodestyle`` instead of ``pep8``
+
+
 0.2.9 (2016-04-07)
 ------------------
 * Fixed issue #7 - stdin not supported
