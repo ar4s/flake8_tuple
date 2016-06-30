@@ -3,6 +3,10 @@
 History
 -------
 
+TBA
+-------------------
+* Fixed issue #8 - non exists file raise IOError
+
 0.2.10 (2016-06-30)
 -------------------
 * Fixed issue #9 - ``pycodestyle`` instead of ``pep8``

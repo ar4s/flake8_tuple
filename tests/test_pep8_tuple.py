@@ -3,7 +3,7 @@ import unittest
 
 from ddt import ddt, data, unpack
 
-from flake8_tuple import check_code_for_wrong_tuple
+from flake8_tuple import check_code_for_wrong_tuple, TupleChecker
 
 
 @ddt
@@ -32,6 +32,10 @@ class Testflake8Tuple(unittest.TestCase):
     def test_tuple(self, code, errors):
         result = check_code_for_wrong_tuple(code)
         self.assertEqual(len(result), errors)
+
+    def test_file_not_found(self):
+        checker = TupleChecker(None, 'foo')
+        next(checker.run())
 
 
 if __name__ == '__main__':

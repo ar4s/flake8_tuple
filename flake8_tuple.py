@@ -40,7 +40,10 @@ class TupleChecker(object):
         self.filename = filename
 
     def run(self):
-        lines = get_lines(self.filename)
+        try:
+            lines = get_lines(self.filename)
+        except IOError:
+            yield
         noqa = get_noqa_lines(lines)
 
         for error in check_for_wrong_tuple(self.tree, lines, noqa):
