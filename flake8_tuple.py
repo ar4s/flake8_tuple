@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import ast
 import collections
-import pycodestyle
 import six
 import token
 import tokenize
+
+from flake8.engine import pep8
 
 __version__ = '0.2.10'
 
@@ -26,9 +27,9 @@ else:
 
 def get_lines(filename):
     if filename in ('stdin', '-', None):
-        return pycodestyle.stdin_get_value().splitlines(True)
+        return pep8.stdin_get_value().splitlines(True)
     else:
-        return pycodestyle.readlines(filename)
+        return pep8.readlines(filename)
 
 
 class TupleChecker(object):
