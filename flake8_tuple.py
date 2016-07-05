@@ -7,7 +7,7 @@ import tokenize
 
 from flake8.engine import pep8
 
-__version__ = '0.2.10'
+__version__ = '0.2.11'
 
 
 ERROR_CODE = 'T801'

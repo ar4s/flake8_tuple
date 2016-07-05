@@ -3,10 +3,11 @@
 History
 -------
 
-TBA
+0.2.11 (2016-07-05)
 -------------------
 * Fixed issue #8 - non exists file raise IOError
 * Fixed issues #10 and #11 - compatibility with older versions of flake8
+
 
 0.2.10 (2016-06-30)
 -------------------
