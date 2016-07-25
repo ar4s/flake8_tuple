@@ -3,6 +3,11 @@
 History
 -------
 
+0.2.12 (2016-07-25)
+-------------------
+* Fixed #12 - flake8>=3.0.0 compatibility
+
+
 0.2.11 (2016-07-05)
 -------------------
 * Fixed issue #8 - non exists file raise IOError

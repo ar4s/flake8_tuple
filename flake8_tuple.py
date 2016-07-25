@@ -5,9 +5,12 @@ import six
 import token
 import tokenize
 
-from flake8.engine import pep8
+try:
+    import pycodestyle as pep8
+except ImportError:
+    import pep8
 
-__version__ = '0.2.11'
+__version__ = '0.2.12'
 
 
 ERROR_CODE = 'T801'
