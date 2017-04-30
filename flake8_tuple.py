@@ -83,6 +83,10 @@ def check_code_for_wrong_tuple(code):
     return check_for_wrong_tuple(tree, code, noqa)
 
 
+def ending_of_bad_tuple(x):
+    return x.type == token.OP and x.string == ','
+
+
 def check_for_wrong_tuple(tree, code, noqa):
     errors = []
     candidates = []
@@ -101,14 +105,18 @@ def check_for_wrong_tuple(tree, code, noqa):
         tokens = tokenize.generate_tokens(
             lambda L=iter(code): next(L)
         )
+        previous_token = None
         for t in tokens:
             x = TokenInfo(*t)
             if x.start[0] != candidate[0]:
                 continue
+            if x.type == token.NEWLINE and ending_of_bad_tuple(previous_token):
+                errors.append(x.start)
             if x.type == token.OP and x.string == '=':
                 x = TokenInfo(*next(tokens))
                 if x.type != token.OP and x.string != '(':
                     x_next = TokenInfo(*next(tokens))
-                    if x_next.type == token.OP and x_next.string == ',':
+                    if ending_of_bad_tuple(x_next):
                         errors.append(x.start)
+            previous_token = x
     return errors

@@ -41,8 +41,8 @@ This plugin add new flake8 warning:
 Requirements
 -------------
 
-* Python 2.x, 3.x (tested on 2.7, 3.4, 3.5)
-* flake8
+* Python 2.x, 3.x (tested on 2.7, 3.4, 3.5 and 3.6)
+* flake8 or pycodestyle
 
 
 Licence

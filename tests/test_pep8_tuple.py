@@ -10,7 +10,6 @@ from flake8_tuple import check_code_for_wrong_tuple, TupleChecker
 class Testflake8Tuple(unittest.TestCase):
     @unpack
     @data(
-        ("bar = 1,  # noqa", 0),
         ("bar = 1, 2", 0),
         ("foo = 1", 0),
         ("foo = (1,)", 0),
@@ -28,6 +27,8 @@ class Testflake8Tuple(unittest.TestCase):
         ('"""\nfoo\n"""\nbah = 1\n', 0),
         ("base_url = reverse(\n'test',\nargs=(pk,)\n)", 0),
         ("base_url = reverse(\n'test',\nargs=pk,\n)", 0),
+        ("group_by = function_call('arg'),", 1),
+        ("group_by = ('foobar' * 3),", 1),
     )
     def test_tuple(self, code, errors):
         result = check_code_for_wrong_tuple(code)
