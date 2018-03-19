@@ -29,6 +29,7 @@ class Testflake8Tuple(unittest.TestCase):
         ("base_url = reverse(\n'test',\nargs=pk,\n)", 0),
         ("group_by = function_call('arg'),", 1),
         ("group_by = ('foobar' * 3),", 1),
+        ("def foo():\n return False,", 1),
     )
     def test_tuple(self, code, errors):
         result = check_code_for_wrong_tuple(code)
