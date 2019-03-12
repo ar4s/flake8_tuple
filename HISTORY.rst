@@ -3,9 +3,15 @@
 History
 -------
 
+0.3.0 (2019-03-19)
+-------------------
+* Refactor and simplify crucial for loop.
+
+
 0.2.14 (2019-03-12)
 -------------------
 * Fix reading from stdin when it is closed.
+
 
 0.2.13 (2016-07-25)
 -------------------
