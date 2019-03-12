@@ -33,6 +33,11 @@ else:
     TokenInfo = tokenize.TokenInfo
 
 
+CandidateToCheck = collections.namedtuple(
+    'CandidateToCheck', ['line_no', 'col_offset']
+)
+
+
 def get_lines(filename):
     if filename in ('stdin', '-', None):
         return stdin_utils.stdin_get_value().splitlines(True)
@@ -92,23 +97,33 @@ def ending_of_bad_tuple(x):
     return x.type == token.OP and x.string == ','
 
 
+def is_an_one_element_tuple(node):
+   return isinstance(node, ast.Tuple) and len(node.elts) == 1
+
+
+def is_assign_or_return_statement(node):
+    return isinstance(node, ast.Assign) or isinstance(node, ast.Return)
+
+
 def check_for_wrong_tuple(tree, code, noqa):
     errors = []
     candidates = []
+
     for assign in ast.walk(tree):
-        if (not isinstance(assign, ast.Assign) and
-            not isinstance(assign, ast.Return)):
+        if not is_assign_or_return_statement(assign):
             continue
         elif assign.lineno in noqa:
             continue
         elif isinstance(assign.value, ast.Call):
             continue
-        for tuple_el in ast.walk(assign):
-            if isinstance(tuple_el, ast.Tuple) and len(tuple_el.elts) == 1:
-                candidates.append((assign.lineno, assign.col_offset))
-                break
+        if is_an_one_element_tuple(assign.value):
+            candidates.append(
+                CandidateToCheck(assign.lineno, assign.col_offset)
+            )
+
     if not candidates:
         return []
+
     for candidate in candidates:
         number_nl = 0  # account for logical newlines within statements
         tokens = tokenize.generate_tokens(
@@ -121,7 +136,7 @@ def check_for_wrong_tuple(tree, code, noqa):
             x = TokenInfo(*t)
             if x.type == tokenize.NL:
                 number_nl += 1
-            if x.start[0] - number_nl != candidate[0]:
+            if x.start[0] - number_nl != candidate.line_no:
                 previous_token = x
                 continue
             if x.type == token.NEWLINE and ending_of_bad_tuple(previous_token):

@@ -34,6 +34,10 @@ class Testflake8Tuple(unittest.TestCase):
         ("def foo():\n return True, False,", 0),
         ("def foo():\n return True", 0),
         ("def foo():\n return False,", 1),
+        ("def foo():\n return [Bar(target_fields=(opts.pk,))]", 0),
+        ("def foo():\n return Bar(target_fields=(opts.pk,))", 0),
+        ("def foo():\n return [Bar(target='self', target_fields=(opts.pk,))]", 0),  # noqa
+        ("errors = [Error('%s' % (bar,), obj=bar, id='123')]", 0),
     )
     def test_tuple(self, code, errors):
         result = check_code_for_wrong_tuple(code)
