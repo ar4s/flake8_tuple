@@ -9,5 +9,7 @@ Development Lead
 
 Contributors
 ------------
-
-None yet. Why not be the first?
+* Thomas Grainger <@graingert>
+* Andrew Gaul <@gaul>
+* Anton Tsigularov <@Atilla>
+* Julius Seporaitis <@seporaitis>
