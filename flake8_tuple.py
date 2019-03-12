@@ -10,7 +10,12 @@ try:
 except ImportError:
     import pep8
 
-__version__ = '0.2.13'
+try:
+    from flake8.engine import pep8 as stdin_utils
+except ImportError:
+    from flake8 import utils as stdin_utils
+
+__version__ = '0.2.14'
 
 
 ERROR_CODE = 'T801'
@@ -30,7 +35,7 @@ else:
 
 def get_lines(filename):
     if filename in ('stdin', '-', None):
-        return pep8.stdin_get_value().splitlines(True)
+        return stdin_utils.stdin_get_value().splitlines(True)
     else:
         return pep8.readlines(filename)
 

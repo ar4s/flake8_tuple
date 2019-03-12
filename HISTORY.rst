@@ -3,6 +3,10 @@
 History
 -------
 
+0.2.14 (2019-03-12)
+-------------------
+* Fix reading from stdin when it is closed.
+
 0.2.13 (2016-07-25)
 -------------------
 * Fixed #14 - false negative
