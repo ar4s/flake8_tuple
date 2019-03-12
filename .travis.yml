@@ -1,20 +1,16 @@
 sudo: false
 
-language: python
+services:
+    - docker
 
-python:
-  - "3.7"
-  - "3.6"
-  - "3.5"
-  - "3.4"
-  - "2.7"
+env:
+    - PYTHON_VERSION=3.6 FLAKE8_VERSION=flake8>=3.0.0
+    - PYTHON_VERSION=3.7 FLAKE8_VERSION=flake8>=3.0.0
+    - PYTHON_VERSION=3.8-rc FLAKE8_VERSION=flake8>=3.0.0
 
-install:
-  - pip install six
-  - pip install flake8
-  - pip install -e .
-  - pip install tox-travis
+    before_script:
+    - sed -i '' -e "s/{PYTHON_VERSION}/$PYTHON_VERSION/g" Dockerfile
+    - sed -i '' -e "s/{FLAKE8_VERSION}/$FLAKE8_VERSION/g" Dockerfile
 
 script:
-  - tox
-  - flake8 tests/issues
+    - docker build .

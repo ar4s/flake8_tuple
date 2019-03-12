@@ -1,0 +1,4 @@
+dist
+.eggs
+.tox
+.venv
