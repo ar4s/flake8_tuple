@@ -3,6 +3,11 @@
 History
 -------
 
+0.3.1 (2019-05-05)
+------------------
+* Fix #21 preceding-blankline bug. 
+
+
 0.3.0 (2019-03-19)
 -------------------
 * Refactor and simplify crucial for loop.

@@ -13,3 +13,4 @@ Contributors
 * Andrew Gaul <@gaul>
 * Anton Tsigularov <@Atilla>
 * Julius Seporaitis <@seporaitis>
+* Brian Skinn <@bskinn>
