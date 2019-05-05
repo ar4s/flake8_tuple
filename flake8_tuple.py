@@ -119,11 +119,11 @@ def check_for_wrong_tuple(tree, code, noqa):
             if previous_token is not None and previous_token.type == tokenize.NEWLINE:
                 number_nl = 0
             x = TokenInfo(*t)
-            if x.type == tokenize.NL:
-                number_nl += 1
             if x.start[0] - number_nl != candidate[0]:
                 previous_token = x
                 continue
+            if x.type == tokenize.NL:
+                number_nl += 1
             if x.type == token.NEWLINE and ending_of_bad_tuple(previous_token):
                 errors.append(x.start)
             if x.type == token.OP and x.string == '=':
