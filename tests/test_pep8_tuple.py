@@ -14,6 +14,8 @@ class Testflake8Tuple(unittest.TestCase):
         ("foo = 1", 0),
         ("foo = (1,)", 0),
         ("foo = 1,", 1),
+        ("\nfoo = 1,", 1),
+        ("\nfoo = 1,\nbar = 2,", 2),
         ("bar = 1; foo = bar,", 1),
         ("foo = (\n3,\n4,\n)\nbar = 10,", 1),
         ("foo = 3,\nbar = 10,\nfoo_bar = 2,", 3),
