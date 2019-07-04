@@ -1,1 +1,3 @@
 include AUTHORS.rst README.rst HISTORY.rst LICENSE
+
+recursive-include tests *
