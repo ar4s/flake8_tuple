@@ -96,8 +96,7 @@ def check_for_wrong_tuple(tree, code, noqa):
     errors = []
     candidates = []
     for assign in ast.walk(tree):
-        if (not isinstance(assign, ast.Assign) and
-            not isinstance(assign, ast.Return)):
+        if not isinstance(assign, (ast.Assign, ast.Return)):
             continue
         elif assign.lineno in noqa:
             continue
