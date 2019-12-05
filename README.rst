@@ -1,5 +1,3 @@
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Far4s%2Fflake8_tuple.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Far4s%2Fflake8_tuple?ref=badge_shield)
-
 ============
 flake8_tuple
 ============
@@ -51,7 +49,3 @@ Licence
 -------
 
 BSD license
-
-
-## License
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Far4s%2Fflake8_tuple.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Far4s%2Fflake8_tuple?ref=badge_large)

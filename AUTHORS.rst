@@ -14,3 +14,4 @@ Contributors
 * Anton Tsigularov <@Atilla>
 * Julius Seporaitis <@seporaitis>
 * Brian Skinn <@bskinn>
+* Jon Parise <@jparise>

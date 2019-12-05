@@ -15,7 +15,7 @@ try:
 except ImportError:
     from flake8 import utils as stdin_utils
 
-__version__ = '0.4.0'
+__version__ = '0.4.1'
 
 
 ERROR_CODE = 'T801'

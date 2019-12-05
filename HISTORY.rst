@@ -3,6 +3,11 @@
 History
 -------
 
+0.4.1 (2019-12-05)
+------------------
+* Fix #26 False positive on 1-tuple assignments containing a function call with a kwarg.
+
+
 0.3.1 (2019-05-05)
 ------------------
 * Fix #21 preceding-blankline bug. 
