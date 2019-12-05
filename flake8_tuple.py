@@ -125,7 +125,7 @@ def check_for_wrong_tuple(tree, code, noqa):
                 number_nl += 1
             if x.type == token.NEWLINE and ending_of_bad_tuple(previous_token):
                 errors.append(x.start)
-            if x.type == token.OP and x.string == '=':
+            if x.type == token.OP and x.string == '=' and previous_token.type != token.NAME:
                 x = TokenInfo(*next(tokens))
                 if x.type != token.OP and x.string != '(':
                     x_next = TokenInfo(*next(tokens))

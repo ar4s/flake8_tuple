@@ -30,6 +30,7 @@ class Testflake8Tuple(unittest.TestCase):
         ("base_url = reverse(\n'test',\nargs=(pk,)\n)", 0),
         ("base_url = reverse(\n'test',\nargs=pk,\n)", 0),
         ("group_by = function_call('arg'),", 1),
+        ("group_by = (function_call(True, a=None, b=None),)", 0),
         ("group_by = ('foobar' * 3),", 1),
         ("val = {}.get(1),", 1),
         ("val = {}.get(\n1),", 1),
