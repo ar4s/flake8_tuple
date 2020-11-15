@@ -1,0 +1,13 @@
+#!/bin/bash -e
+
+cd $(dirname $0)
+
+echo "Building"
+
+python setup.py sdist bdist_wheel
+
+echo "Uploading"
+
+# Pass through arguments to twine so that we can
+# specify a repository if we want.
+twine upload dist/* "$@"
