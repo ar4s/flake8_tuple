@@ -26,7 +26,6 @@ readme = read('README.rst')
 history = read('HISTORY.rst').replace('.. :changelog:', '')
 
 requirements = [
-    'six',
     'flake8'
 ]
 
