@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import ast
 import collections
-import six
 import token
 import tokenize
 
@@ -21,17 +20,7 @@ __version__ = '0.4.1'
 ERROR_CODE = 'T801'
 ERROR_MESSAGE = 'one element tuple'
 
-
-if six.PY2:
-    """
-    Backported from Python 3.x
-    """
-    TokenInfo = collections.namedtuple(
-        'TokenInfo', ['type', 'string', 'start', 'end', 'line']
-    )
-else:
-    TokenInfo = tokenize.TokenInfo
-
+TokenInfo = tokenize.TokenInfo
 
 def get_lines(filename):
     if filename in ('stdin', '-', None):
