@@ -2,8 +2,8 @@
 flake8_tuple
 ============
 
-.. image:: https://img.shields.io/travis/ar4s/flake8_tuple.svg
-        :target: https://travis-ci.org/ar4s/flake8_tuple
+.. image:: https://github.com/ar4s/flake8_tuple/actions/workflows/main.yml/badge.svg
+        :target: https://github.com/ar4s/flake8_tuple/actions/workflows/main.yml
 
 .. image:: https://img.shields.io/pypi/v/flake8_tuple.svg
         :target: https://pypi.python.org/pypi/flake8_tuple
