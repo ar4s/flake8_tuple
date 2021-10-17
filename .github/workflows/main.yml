@@ -1,24 +1,43 @@
-name: Build and Deploy
+name: Install & Test
 on: [push]
 jobs:
   run-tests:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     strategy:
       matrix:
         python-version: ['3.4', '3.5', '3.6', '3.7', '3.8', '3.9']
-    name: Python ${{ matrix.python-version }} sample
+    env:
+      PYTHON_VERSION: ${{ matrix.python-version }}
+    name: Python ${{ matrix.python-version }}
     steps:
       - uses: actions/checkout@v2
+      - name: Local fix 🛠
+        run: |
+          # Hack to get setup-python to work in github actions
+          # (see https://github.com/nektos/act/issues/251)
+          if [ ! -f "/etc/lsb-release" ] ; then
+            echo "DISTRIB_RELEASE=18.04" > /etc/lsb-release
+          fi
       - name: Setup python 🐍
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install 🚀
+      - name: Install packages 📦
         run: |
-          pip install flake8
+          python -m pip install --upgrade pip
           pip install tox
+          pip install flake8
           pip install -e .
-      - name: Script 🔥
+          # tox-gh-actions doesn't support python3.4
+          if [[ "$PYTHON_VERSION" != "3.4" ]] ; then
+            pip install tox-gh-actions
+          fi
+      - name: Run tox 🚀
         run: |
-          tox
-          flake8 tests/issues
+          if [[ "$PYTHON_VERSION" == "3.4" ]] ; then
+            tox -e py34
+          else
+            tox
+          fi
+      - name: Run tests 🚀
+        run: flake8 tests/issues
